@@ -30,6 +30,7 @@ steps:
     targetType: 'inline'
     script: |
       rm -rf node_modules
+      ls -lrt
       npm install
       ls -lrt
 
