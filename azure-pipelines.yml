@@ -16,7 +16,6 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    displayName: 'Bomber'
     script: |
       npm install -g @cyclonedx/cdxgen
       cdxgen -o bom.json
@@ -25,7 +24,7 @@ steps:
       sudo dpkg -i bomber_0.4.4_linux_amd64.deb
       ls -lrt
       bomber scan --provider snyk --token $(SNYK_TOKEN) bom.json
-    
+  displayName: 'Bomber'
 
 - task: Bash@3
   inputs:
@@ -50,4 +49,4 @@ steps:
               ./snyk test --file=package.json
               echo "----------Snyk Monitor------------"
 #              ./snyk monitor --all-projects
-    displayName: 'Workaround 1'
+  displayName: 'Workaround 1'
