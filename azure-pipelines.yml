@@ -13,38 +13,35 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      npm install -g @cyclonedx/cdxgen
+      cdxgen -o bom.json
+      wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_arm64.deb
+      dpkg -i bomber_0.4.4_linux_arm64.deb
+
 # - task: Bash@3
 #   inputs:
 #     targetType: 'inline'
 #     script: |
-#       npm install -g @cyclonedx/cdxgen
-#       cdxgen -o bom.json
-#       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_arm64.tar.gz
-#       tar xzf bomber_0.4.4_linux_arm64.tar.gz
-#       ./configure
-#       make
-#       make install
+#       rm -rf node_modules
+#       ls -lrt
+#       npm install
+#       ls -lrt
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      rm -rf node_modules
-      ls -lrt
-      npm install
-      ls -lrt
-
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      echo "----------Download Latest Snyk CLI-----------"
-              curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
-              chmod +x snyk
-              ls -lrt
-              echo "----------Authenticating Snyk-----------"
-              ./snyk auth $(SNYK_TOKEN)
-              echo "----------Snyk Scanning-----------"
-              ./snyk test --file=package.json
-              echo "----------Snyk Monitor------------"
-              ./snyk monitor --all-projects
+# - task: Bash@3
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       echo "----------Download Latest Snyk CLI-----------"
+#               curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
+#               chmod +x snyk
+#               ls -lrt
+#               echo "----------Authenticating Snyk-----------"
+#               ./snyk auth $(SNYK_TOKEN)
+#               echo "----------Snyk Scanning-----------"
+#               ./snyk test --file=package.json
+#               echo "----------Snyk Monitor------------"
+#               ./snyk monitor --all-projects
