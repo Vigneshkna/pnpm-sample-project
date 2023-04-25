@@ -19,3 +19,4 @@ steps:
     script: |
       npm install -g @cyclonedx/cdxgen
       cdxgen -o bom.json
+      ls -lrt
