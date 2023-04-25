@@ -19,6 +19,7 @@ steps:
     script: |
       npm install -g @cyclonedx/cdxgen
       cdxgen -o bom.json
+      cat bom.json
       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
       sudo dpkg -i bomber_0.4.4_linux_amd64.deb
       ls -lrt
