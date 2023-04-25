@@ -30,6 +30,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+       npm install -g pnpm
        pnpm audit
        rm -rf node_modules
        ls -lrt
