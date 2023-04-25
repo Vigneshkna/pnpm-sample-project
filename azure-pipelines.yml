@@ -16,4 +16,4 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: 'ls -lrt'
+    script: 'npm install -g @cyclonedx/cdxgen'
