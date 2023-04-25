@@ -21,3 +21,4 @@ steps:
       cdxgen -o bom.json
       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_arm64.deb
       ls -lrt
+      dpkg -i bomber_0.4.1_linux_arm64.deb
