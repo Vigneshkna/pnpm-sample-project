@@ -20,7 +20,7 @@ steps:
       npm install -g @cyclonedx/cdxgen
       cdxgen -o bom.json
       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_arm64.deb
-      dpkg -i bomber_0.4.4_linux_arm64.deb
+      sudo dpkg -i bomber_0.4.4_linux_arm64.deb
 
 # - task: Bash@3
 #   inputs:
