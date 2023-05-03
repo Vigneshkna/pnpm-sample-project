@@ -36,7 +36,7 @@ steps:
        ls -lrt
        npm install
        ls -lrt
-
+  displayName: 'pnpm-audit'
 - task: Bash@3
   inputs:
     targetType: 'inline'
