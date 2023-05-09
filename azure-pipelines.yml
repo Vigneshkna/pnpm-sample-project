@@ -1,10 +1,4 @@
 # Starter pipeline
-- task: SnykSecurityScan@1
-  inputs:
-    serviceConnectionEndpoint: 'Snyk Service Connections'
-    testType: 'app'
-    monitorWhen: 'always'
-    failOnIssues: true
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -58,3 +52,10 @@ steps:
               echo "----------Snyk Monitor------------"
 #              ./snyk monitor --all-projects
   displayName: 'Workaround 1'
+- task: SnykSecurityScan@1
+  inputs:
+    serviceConnectionEndpoint: 'Snyk Service Connections'
+    testType: 'app'
+    monitorWhen: 'always'
+    failOnIssues: true
+  displayName: 'Snykscan'
