@@ -58,7 +58,7 @@ steps:
               echo "----------Snyk Scanning-----------"
               ./snyk test --file=package.json
               echo "----------Snyk Monitor------------"
-              ./snyk monitor --all-projects
+              # ./snyk monitor --all-projects
   displayName: 'Workaround 1'
 
 - task: SnykSecurityScan@1
