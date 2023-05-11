@@ -13,6 +13,13 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
+- task: SnykSecurityScan@1
+  inputs:
+    serviceConnectionEndpoint: 'VigneshSnyk'
+    testType: 'app'
+    monitorWhen: 'always'
+    failOnIssues: true
+
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -52,6 +59,8 @@ steps:
               echo "----------Snyk Monitor------------"
 #              ./snyk monitor --all-projects
   displayName: 'Workaround 1'
+
+
 # - task: SnykSecurityScan@1
 #   inputs:
 #     serviceConnectionEndpoint: 'Snyk Service Connections'
