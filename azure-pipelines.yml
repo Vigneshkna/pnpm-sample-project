@@ -36,6 +36,8 @@ steps:
        ls -lrt
        npm install
        ls -lrt
+       npm audit 
+       ls -lrt
   displayName: 'pnpm-audit'
 - task: Bash@3
   inputs:
