@@ -10,8 +10,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
 - task: Bash@3
   inputs:
@@ -30,13 +28,18 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+       echo "----------NPM Installing PNPM------------"
        npm install -g pnpm
        pnpm install
+       echo "----------PNPM Audit------------"
        pnpm audit
+       echo "----------Remove NodeModules------------"
        rm -rf node_modules
        ls -lrt
+       echo "----------NPM install------------"
        npm install
        ls -lrt
+       echo "----------NPM Audit------------"
        npm audit 
        ls -lrt
   displayName: 'pnpm-audit'
