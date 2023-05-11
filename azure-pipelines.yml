@@ -31,6 +31,7 @@ steps:
     targetType: 'inline'
     script: |
        npm install -g pnpm
+       pnpm install
        pnpm audit
        rm -rf node_modules
        ls -lrt
