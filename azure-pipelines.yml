@@ -52,10 +52,10 @@ steps:
               echo "----------Snyk Monitor------------"
 #              ./snyk monitor --all-projects
   displayName: 'Workaround 1'
-- task: SnykSecurityScan@1
-  inputs:
-    serviceConnectionEndpoint: 'Snyk Service Connections'
-    testType: 'app'
-    monitorWhen: 'always'
-    failOnIssues: true
-  displayName: 'Snykscan'
+# - task: SnykSecurityScan@1
+#   inputs:
+#     serviceConnectionEndpoint: 'Snyk Service Connections'
+#     testType: 'app'
+#     monitorWhen: 'always'
+#     failOnIssues: true
+#   displayName: 'Snykscan'
