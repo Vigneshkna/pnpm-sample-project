@@ -15,7 +15,7 @@ steps:
 
 - task: SnykSecurityScan@1
   inputs:
-    serviceConnectionEndpoint: 'VigneshSnyk'
+    serviceConnectionEndpoint: 'SNYK_TOKEN'
     testType: 'app'
     monitorWhen: 'always'
     failOnIssues: true
