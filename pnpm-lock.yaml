@@ -290,10 +290,10 @@ dependencies:
   urql: 3.0.3_onqnqwb3ubg5opvemcqf7c2qhy
   winston: 3.6.0
   winston-transport: 4.5.0
-  lodash:4.17.20
+  lodash: 4.17.20
 
 devDependencies:
-  lodash:4.17.20
+  lodash: 4.17.20
   '@actions/core': 1.10.0
   '@adobe/aio-lib-analytics': 3.0.0
   '@adobe/jwt-auth': 2.0.0
