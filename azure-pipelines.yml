@@ -10,7 +10,25 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+       echo "----------NPM Installing PNPM------------"
+       npm install -g pnpm
+       pnpm install
+       echo "----------PNPM Audit------------"
+       pnpm audit
+       echo "----------Remove NodeModules------------"
+       rm -rf node_modules
+       ls -lrt
+       echo "----------NPM install------------"
+       npm install
+       ls -lrt
+       echo "----------NPM Audit------------"
+       npm audit 
+       ls -lrt
+  displayName: 'PNPM-Audit'
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -31,25 +49,6 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-       echo "----------NPM Installing PNPM------------"
-       npm install -g pnpm
-       pnpm install
-       echo "----------PNPM Audit------------"
-       pnpm audit
-       echo "----------Remove NodeModules------------"
-       rm -rf node_modules
-       ls -lrt
-       echo "----------NPM install------------"
-       npm install
-       ls -lrt
-       echo "----------NPM Audit------------"
-       npm audit 
-       ls -lrt
-  displayName: 'pnpm-audit'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
       echo "----------Download Latest Snyk CLI-----------"
               curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
               chmod +x snyk
@@ -59,7 +58,7 @@ steps:
               echo "----------Snyk Scanning-----------"
               ./snyk test --file=package.json
               echo "----------Snyk Monitor------------"
-#              ./snyk monitor --all-projects
+              ./snyk monitor --all-projects
   displayName: 'Workaround 1'
 
 - task: SnykSecurityScan@1
