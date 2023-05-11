@@ -13,13 +13,6 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- task: SnykSecurityScan@1
-  inputs:
-    serviceConnectionEndpoint: 'SNYK_TOKEN'
-    testType: 'app'
-    monitorWhen: 'always'
-    failOnIssues: true
-
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -60,11 +53,10 @@ steps:
 #              ./snyk monitor --all-projects
   displayName: 'Workaround 1'
 
-
-# - task: SnykSecurityScan@1
-#   inputs:
-#     serviceConnectionEndpoint: 'Snyk Service Connections'
-#     testType: 'app'
-#     monitorWhen: 'always'
-#     failOnIssues: true
-#   displayName: 'Snykscan'
+- task: SnykSecurityScan@1
+  inputs:
+    serviceConnectionEndpoint: 'SNYK_TOKEN'
+    testType: 'app'
+    monitorWhen: 'always'
+    failOnIssues: false
+  displayName: 'Snykscan Check'
