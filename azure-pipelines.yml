@@ -44,17 +44,27 @@ steps:
         # Run pnpm audit and capture the output
         audit_output=$(pnpm audit --json)
 
-        # Extract package names for each severity level
-        low_packages=$(echo "$audit_output" | grep -Eo '"severity":"low".*?,"via":' | grep -Eo '"name":"[^"]+"' | awk -F'"' '{print $4}')
-        moderate_packages=$(echo "$audit_output" | grep -Eo '"severity":"moderate".*?,"via":' | grep -Eo '"name":"[^"]+"' | awk -F'"' '{print $4}')
-        high_packages=$(echo "$audit_output" | grep -Eo '"severity":"high".*?,"via":' | grep -Eo '"name":"[^"]+"' | awk -F'"' '{print $4}')
-        critical_packages=$(echo "$audit_output" | grep -Eo '"severity":"critical".*?,"via":' | grep -Eo '"name":"[^"]+"' | awk -F'"' '{print $4}')
+        # Extract the vulnerability data for each level
+        low_vulnerabilities=$(echo "$audit_output" | grep -oE '"severity":"low","name":"[^"]+"' | cut -d'"' -f8)
+        moderate_vulnerabilities=$(echo "$audit_output" | grep -oE '"severity":"moderate","name":"[^"]+"' | cut -d'"' -f8)
+        high_vulnerabilities=$(echo "$audit_output" | grep -oE '"severity":"high","name":"[^"]+"' | cut -d'"' -f8)
+        critical_vulnerabilities=$(echo "$audit_output" | grep -oE '"severity":"critical","name":"[^"]+"' | cut -d'"' -f8)
 
         # Display the package names for each severity level
-        echo "Low Severity Packages: $low_packages"
-        echo "Moderate Severity Packages: $moderate_packages"
-        echo "High Severity Packages: $high_packages"
-        echo "Critical Severity Packages: $critical_packages"
+        echo "Low Severity Vulnerabilities:"
+        echo "$low_vulnerabilities"
+        echo "-----------------------------"
+
+        echo "Moderate Severity Vulnerabilities:"
+        echo "$moderate_vulnerabilities"
+        echo "-----------------------------"
+
+        echo "High Severity Vulnerabilities:"
+        echo "$high_vulnerabilities"
+        echo "-----------------------------"
+
+        echo "Critical Severity Vulnerabilities:"
+        echo "$critical_vulnerabilities"
 
   displayName: 'PNPM-Audit-Vulnerability packages'
 - task: Bash@3
