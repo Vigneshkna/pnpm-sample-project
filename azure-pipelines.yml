@@ -20,7 +20,7 @@ steps:
        echo "----------PNPM Audit------------"
        pnpm audit
        echo "----------PNPM Audit vulnerability------------"
-       pnpm --audit-level=critical
+       pnpm audit --audit-level=critical
        echo "----------Remove NodeModules------------"
        rm -rf node_modules
        ls -lrt
