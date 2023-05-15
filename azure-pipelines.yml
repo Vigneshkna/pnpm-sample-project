@@ -18,6 +18,29 @@ steps:
        npm install -g pnpm
        pnpm install
        echo "----------PNPM Audit vulnerability------------"
+       # Run pnpm audit and capture the output
+       audit_output=$(pnpm audit --json)
+
+       # Parse the output to extract vulnerability counts
+       low_count=$(echo "$audit_output" | jq '.metadata.vulnerabilities.low')
+       moderate_count=$(echo "$audit_output" | jq '.metadata.vulnerabilities.moderate')
+       high_count=$(echo "$audit_output" | jq '.metadata.vulnerabilities.high')
+       critical_count=$(echo "$audit_output" | jq '.metadata.vulnerabilities.critical')
+
+       # Display the vulnerability counts
+       echo "Low: $low_count"
+       echo "Moderate: $moderate_count"
+       echo "High: $high_count"
+       echo "Critical: $critical_count"
+  displayName: 'PNPM-Audit-Vulnerability counts'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+       echo "----------NPM Installing PNPM------------"
+       npm install -g pnpm
+       pnpm install
+       echo "----------PNPM Audit vulnerability------------"
        sudo apt-get install jq
        pnpm audit --json | jq '[.vulnerabilities[] | { level: .level }] | group_by(.level) | map({level: .[0].level, count: length})'
       #  echo "----------PNPM Audit------------"
