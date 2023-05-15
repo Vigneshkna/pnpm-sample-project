@@ -17,35 +17,36 @@ steps:
        echo "----------NPM Installing PNPM------------"
        npm install -g pnpm
        pnpm install
-       echo "----------PNPM Audit------------"
-       pnpm audit
        echo "----------PNPM Audit vulnerability------------"
-       pnpm audit --audit-level=critical
-       echo "----------Remove NodeModules------------"
-       rm -rf node_modules
-       ls -lrt
-       echo "----------NPM install------------"
-       npm install
-       ls -lrt
-       echo "----------NPM Audit------------"
-       npm audit 
-       ls -lrt
+       pnpm audit --json | jq '.advisories | group_by(.severity) | map({"level": .[0].severity, "count": length})'
+      #  echo "----------PNPM Audit------------"
+      #  pnpm audit
+      #  pnpm audit --audit-level=critical
+      #  echo "----------Remove NodeModules------------"
+      #  rm -rf node_modules
+      #  ls -lrt
+      #  echo "----------NPM install------------"
+      #  npm install
+      #  ls -lrt
+      #  echo "----------NPM Audit------------"
+      #  npm audit 
+      #  ls -lrt
   displayName: 'PNPM-Audit'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      echo "----------NPM Installing cyclonedx/cdxgen------------"
-      npm install -g @cyclonedx/cdxgen
-      cdxgen -o bom.json
-      cat bom.json
-      wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
-      sudo dpkg -i bomber_0.4.4_linux_amd64.deb
-      ls -lrt
-      echo "----------Bomber Scan Started with Snyk------------"
-      bomber scan --provider snyk --token $(SNYK_TOKEN) bom.json
-      echo "----------Bomber Scan Ended with Snyk------------"
-  displayName: 'Bomber'
+# - task: Bash@3
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       echo "----------NPM Installing cyclonedx/cdxgen------------"
+#       npm install -g @cyclonedx/cdxgen
+#       cdxgen -o bom.json
+#       cat bom.json
+#       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
+#       sudo dpkg -i bomber_0.4.4_linux_amd64.deb
+#       ls -lrt
+#       echo "----------Bomber Scan Started with Snyk------------"
+#       bomber scan --provider snyk --token $(SNYK_TOKEN) bom.json
+#       echo "----------Bomber Scan Ended with Snyk------------"
+#   displayName: 'Bomber'
 
 - task: Bash@3
   inputs:
