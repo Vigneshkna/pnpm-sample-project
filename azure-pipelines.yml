@@ -19,7 +19,7 @@ steps:
        pnpm install
        echo "----------PNPM Audit vulnerability------------"
        sudo apt-get install jq
-       pnpm audit --json | jq '.advisories | group_by(.severity) | map({"level": .[0].severity, "count": length})'
+       pnpm audit --json | jq '[.vulnerabilities[] | { level: .level }] | group_by(.level) | map({level: .[0].level, count: length})'
       #  echo "----------PNPM Audit------------"
       #  pnpm audit
       #  pnpm audit --audit-level=critical
