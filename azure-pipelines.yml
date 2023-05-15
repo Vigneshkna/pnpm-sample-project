@@ -20,7 +20,7 @@ steps:
        echo "----------PNPM Audit------------"
        pnpm audit
        echo "----------PNPM Audit vulnerability------------"
-       pnpm audit | Select-String -Pattern  ( "vulnerabilities") -Context 0,10
+       pnpm --audit-level=critical
        echo "----------Remove NodeModules------------"
        rm -rf node_modules
        ls -lrt
