@@ -44,21 +44,17 @@ steps:
         # Run pnpm audit and capture the output
         audit_output=$(pnpm audit --json)
 
-        # Extract package names for all severities
-        low_packages=$(echo "$audit_output" | grep -oP '(?<="name": ")[^"]+' | grep -w 'low')
-        moderate_packages=$(echo "$audit_output" | grep -oP '(?<="name": ")[^"]+' | grep -w 'moderate')
-        high_packages=$(echo "$audit_output" | grep -oP '(?<="name": ")[^"]+' | grep -w 'high')
-        critical_packages=$(echo "$audit_output" | grep -oP '(?<="name": ")[^"]+' | grep -w 'critical')
+        # Extract package names for each severity level
+        low_packages=$(echo "$audit_output" | awk -F '[,:]+' '/"low"/ { getline; print $2 }')
+        moderate_packages=$(echo "$audit_output" | awk -F '[,:]+' '/"moderate"/ { getline; print $2 }')
+        high_packages=$(echo "$audit_output" | awk -F '[,:]+' '/"high"/ { getline; print $2 }')
+        critical_packages=$(echo "$audit_output" | awk -F '[,:]+' '/"critical"/ { getline; print $2 }')
 
-        # Display the package names for each severity
-        echo "Low severity packages:"
-        echo "$low_packages"
-        echo "Moderate severity packages:"
-        echo "$moderate_packages"
-        echo "High severity packages:"
-        echo "$high_packages"
-        echo "Critical severity packages:"
-        echo "$critical_packages"
+        # Display the package names for each severity level
+        echo "Low vulnerability packages: $low_packages"
+        echo "Moderate vulnerability packages: $moderate_packages"
+        echo "High vulnerability packages: $high_packages"
+        echo "Critical vulnerability packages: $critical_packages"
   displayName: 'PNPM-Audit-Vulnerability packages'
 - task: Bash@3
   inputs:
