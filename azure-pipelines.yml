@@ -18,7 +18,7 @@ steps:
        npm install -g pnpm
        pnpm install
        echo "----------PNPM Audit vulnerability------------"
-       apt-get install jq
+       sudo apt-get install jq
        pnpm audit --json | jq '.advisories | group_by(.severity) | map({"level": .[0].severity, "count": length})'
       #  echo "----------PNPM Audit------------"
       #  pnpm audit
