@@ -32,29 +32,48 @@ steps:
        echo "Moderate: $moderate_count"
        echo "High: $high_count"
        echo "Critical: $critical_count"
-  displayName: 'PNPM-Audit-Vulnerability counts'
+  displayName: 'PNPM-Audit-Vulnerability counts with-Jq'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+        echo "----------NPM Installing PNPM------------"
+        npm install -g pnpm
+        pnpm install
+        echo "----------PNPM Audit vulnerability------------"
+        # Run pnpm audit and capture the output
+        audit_output=$(pnpm audit --json)
+
+        # Extract package names for each severity level
+        low_packages=$(echo "$audit_output" | grep -Eo '"severity":"low".*?,"via":' | grep -Eo '"name":"[^"]+"' | awk -F'"' '{print $4}')
+        moderate_packages=$(echo "$audit_output" | grep -Eo '"severity":"moderate".*?,"via":' | grep -Eo '"name":"[^"]+"' | awk -F'"' '{print $4}')
+        high_packages=$(echo "$audit_output" | grep -Eo '"severity":"high".*?,"via":' | grep -Eo '"name":"[^"]+"' | awk -F'"' '{print $4}')
+        critical_packages=$(echo "$audit_output" | grep -Eo '"severity":"critical".*?,"via":' | grep -Eo '"name":"[^"]+"' | awk -F'"' '{print $4}')
+
+        # Display the package names for each severity level
+        echo "Low Severity Packages: $low_packages"
+        echo "Moderate Severity Packages: $moderate_packages"
+        echo "High Severity Packages: $high_packages"
+        echo "Critical Severity Packages: $critical_packages"
+
+  displayName: 'PNPM-Audit-Vulnerability packages'
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
        echo "----------NPM Installing PNPM------------"
        npm install -g pnpm
-       pnpm install
-       echo "----------PNPM Audit vulnerability------------"
-       sudo apt-get install jq
-       pnpm audit --json | jq '[.vulnerabilities[] | { level: .level }] | group_by(.level) | map({level: .[0].level, count: length})'
-      #  echo "----------PNPM Audit------------"
-      #  pnpm audit
-      #  pnpm audit --audit-level=critical
-      #  echo "----------Remove NodeModules------------"
-      #  rm -rf node_modules
-      #  ls -lrt
-      #  echo "----------NPM install------------"
-      #  npm install
-      #  ls -lrt
-      #  echo "----------NPM Audit------------"
-      #  npm audit 
-      #  ls -lrt
+       pnpm install#  echo "----------PNPM Audit------------"
+       pnpm audit
+       echo "----------Remove NodeModules------------"
+       rm -rf node_modules
+       ls -lrt
+       echo "----------NPM install------------"
+       npm install
+       ls -lrt
+       echo "----------NPM Audit------------"
+       npm audit 
+       ls -lrt
   displayName: 'PNPM-Audit'
 # - task: Bash@3
 #   inputs:
