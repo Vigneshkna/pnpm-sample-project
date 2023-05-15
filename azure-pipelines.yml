@@ -19,6 +19,8 @@ steps:
        pnpm install
        echo "----------PNPM Audit------------"
        pnpm audit
+       echo "----------PNPM Audit vulnerability------------"
+       pnpm audit | Select-String -Pattern  ( "vulnerabilities") -Context 0,10
        echo "----------Remove NodeModules------------"
        rm -rf node_modules
        ls -lrt
