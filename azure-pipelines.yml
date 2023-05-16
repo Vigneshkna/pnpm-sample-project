@@ -62,19 +62,19 @@ steps:
     script: |
        echo "----------NPM Installing PNPM------------"
        npm install -g pnpm
+       pnpm install --fix-lockfile> output.txt
        echo "----------Remove NodeModules------------"
        rm -rf node_modules
        ls -lrt
-       echo "----------PNPM install------------"
-       pnpm install --fix-lockfile
+       echo "----------NPM install------------"
        npm install
-       npm i --package-lock-only
        ls -lrt
        echo "----------PNPM Audit------------"
-       pnpm audit
+       pnpm audit > output.txt
        #  echo "----------NPM Audit------------"
        #  npm audit 
        ls -lrt
+       cat output.txt
   displayName: 'PNPM-Audit'
 - task: Bash@3
   inputs:
@@ -103,11 +103,12 @@ steps:
               echo "----------Authenticating Snyk-----------"
               ./snyk auth $(SNYK_TOKEN)
               echo "----------Snyk Scanning-----------"
-              ./snyk test --file=package.json
+              ./snyk test --file=package.json > output.txt
               #echo "----------Snyk Scanning sbom-----------"
               #./snyk test --file=pnpm-lock.yaml
               echo "----------Snyk Monitor------------"
               ./snyk monitor --file=package.json
+              cat output.txt
   displayName: 'Workaround 1'
 
 - task: SnykSecurityScan@1
