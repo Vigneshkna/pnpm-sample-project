@@ -72,8 +72,8 @@ steps:
        ls -lrt
        echo "----------PNPM Audit------------"
        pnpm audit
-       echo "----------NPM Audit------------"
-       npm audit 
+       #  echo "----------NPM Audit------------"
+       #  npm audit 
        ls -lrt
   displayName: 'PNPM-Audit'
 - task: Bash@3
