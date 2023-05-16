@@ -106,8 +106,8 @@ steps:
               ./snyk test --file=package.json
               #echo "----------Snyk Scanning sbom-----------"
               #./snyk test --file=pnpm-lock.yaml
-              # echo "----------Snyk Monitor------------"
-              # ./snyk monitor --all-projects
+              echo "----------Snyk Monitor------------"
+              ./snyk monitor --file=package.json
   displayName: 'Workaround 1'
 
 - task: SnykSecurityScan@1
