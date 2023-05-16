@@ -64,7 +64,6 @@ steps:
        npm install -g pnpm
        echo "----------Remove NodeModules------------"
        rm -rf node_modules
-       rm -rf package-lock.json
        ls -lrt
        echo "----------PNPM install------------"
        pnpm install
