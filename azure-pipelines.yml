@@ -75,7 +75,9 @@ steps:
        #  npm audit 
        ls -lrt
        echo "----------Output------------"
-       echo "##[command]cat output.txt"
+       cat output.txt | while IFS= read -r line; do
+        echo "##vso[task.logissue type=warning]${line}"
+       done
   displayName: 'PNPM-Audit'
 - task: Bash@3
   inputs:
@@ -110,7 +112,9 @@ steps:
               echo "----------Snyk Monitor------------"
               ./snyk monitor --file=package.json
               echo "----------Snyk Output------------"
-              echo "##[command]cat output.txt"
+              cat output.txt | while IFS= read -r line; do
+                echo "##vso[task.logissue type=warning]${line}"
+              done
   displayName: 'Workaround 1'
 
 - task: SnykSecurityScan@1
