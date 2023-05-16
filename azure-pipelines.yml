@@ -67,13 +67,12 @@ steps:
        rm -f package-lock.json
        ls -lrt
        echo "----------PNPM Audit------------"
-       pnpm i --package-lock-only
+       pnpm install
        pnpm audit
        ls -lrt
        echo "----------NPM install------------"
-       npm i --package-lock-only
-       #  npm install
-       #  ls -lrt
+       npm install
+       ls -lrt
        echo "----------NPM Audit------------"
        npm audit 
        ls -lrt
