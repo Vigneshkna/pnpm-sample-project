@@ -74,7 +74,8 @@ steps:
        #  echo "----------NPM Audit------------"
        #  npm audit 
        ls -lrt
-       cat output.txt
+       echo "----------Output------------"
+       echo "##[command]cat output.txt"
   displayName: 'PNPM-Audit'
 - task: Bash@3
   inputs:
@@ -108,7 +109,8 @@ steps:
               #./snyk test --file=pnpm-lock.yaml
               echo "----------Snyk Monitor------------"
               ./snyk monitor --file=package.json
-              cat output.txt
+              echo "----------Snyk Output------------"
+              echo "##[command]cat output.txt"
   displayName: 'Workaround 1'
 
 - task: SnykSecurityScan@1
