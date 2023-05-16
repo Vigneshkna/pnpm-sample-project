@@ -64,15 +64,14 @@ steps:
        npm install -g pnpm
        echo "----------Remove NodeModules------------"
        rm -rf node_modules
-       rm -f package-lock.json
+       rm -rf package-lock.json
        ls -lrt
-       echo "----------PNPM Audit------------"
+       echo "----------PNPM install------------"
        pnpm install
-       pnpm audit
-       ls -lrt
-       echo "----------NPM install------------"
        npm install
        ls -lrt
+       echo "----------NPM Audit------------"
+       pnpm audit
        echo "----------NPM Audit------------"
        npm audit 
        ls -lrt
@@ -105,7 +104,7 @@ steps:
               ./snyk auth $(SNYK_TOKEN)
               echo "----------Snyk Scanning-----------"
               ./snyk test --file=package.json
-              echo "----------Snyk Scanning sbom-----------"
+              #echo "----------Snyk Scanning sbom-----------"
               #./snyk test --file=pnpm-lock.yaml
               # echo "----------Snyk Monitor------------"
               # ./snyk monitor --all-projects
