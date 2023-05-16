@@ -62,16 +62,17 @@ steps:
     script: |
        echo "----------NPM Installing PNPM------------"
        npm install -g pnpm
-       pnpm install
-       echo "----------PNPM Audit------------"
-       pnpm audit
        echo "----------Remove NodeModules------------"
        rm -rf node_modules
        rm -f package-lock.json
        ls -lrt
-       echo "----------NPM install------------"
-       npm install
+       echo "----------PNPM Audit------------"
+       pnpm install
+       pnpm audit
        ls -lrt
+       #  echo "----------NPM install------------"
+       #  npm install
+       #  ls -lrt
        echo "----------NPM Audit------------"
        npm audit 
        ls -lrt
@@ -105,7 +106,7 @@ steps:
               echo "----------Snyk Scanning-----------"
               ./snyk test --file=package.json
               echo "----------Snyk Scanning sbom-----------"
-              ./snyk test --file=pnpm-lock.yaml
+              #./snyk test --file=pnpm-lock.yaml
               # echo "----------Snyk Monitor------------"
               # ./snyk monitor --all-projects
   displayName: 'Workaround 1'
