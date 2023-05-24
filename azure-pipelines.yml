@@ -79,21 +79,21 @@ steps:
         echo "##vso[task.logissue type=warning]${line}"
        done
   displayName: 'PNPM-Audit'
-# - task: Bash@3
-#   inputs:
-#     targetType: 'inline'
-#     script: |
-#       echo "----------NPM Installing cyclonedx/cdxgen------------"
-#       npm install -g @cyclonedx/cdxgen
-#       cdxgen -o > sbom.json
-#       cat sbom.json
-#       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
-#       sudo dpkg -i bomber_0.4.4_linux_amd64.deb
-#       ls -lrt
-#       echo "----------Bomber Scan Started with Snyk------------"
-#       bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json --output json --debug | (! jq '.["packages"]' -e)
-#       echo "----------Bomber Scan Ended with Snyk------------"
-#   displayName: 'Bomber'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "----------NPM Installing cyclonedx/cdxgen------------"
+      npm install -g @cyclonedx/cdxgen
+      cdxgen -o > sbom.json
+      cat sbom.json
+      wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
+      sudo dpkg -i bomber_0.4.4_linux_amd64.deb
+      ls -lrt
+      echo "----------Bomber Scan Started with Snyk------------"
+      bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json --output json --debug | (! jq '.["packages"]' -e)
+      echo "----------Bomber Scan Ended with Snyk------------"
+  displayName: 'Bomber'
 
 - task: Bash@3
   inputs:
