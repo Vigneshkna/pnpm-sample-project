@@ -179,8 +179,7 @@ steps:
        rm -f package-lock.json
        ls -lrt
        echo "---------NPM INSTALL------------"
-       npm init
-       npm install
+       npm install --save
        ls -lrt
        echo "----------Download Latest Snyk CLI-----------"
        curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
