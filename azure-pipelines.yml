@@ -181,6 +181,7 @@ steps:
        echo "----------Authenticating Snyk-----------"
        ./snyk auth $(SNYK_TOKEN)
        echo "----------Snyk Scanning-----------"
+       ./snyk test --file=pnpm-lock.yaml
        ./snyk test --file=package.json 
        echo "----------Snyk Monitor------------"
        ./snyk monitor --file=package.json
