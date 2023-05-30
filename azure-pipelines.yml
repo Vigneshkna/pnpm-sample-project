@@ -178,6 +178,10 @@ steps:
        rm -rf node_modules
        rm -f package-lock.json
        ls -lrt
+       echo "---------NPM INSTALL------------"
+       npm init
+       npm install
+       ls -lrt
        echo "----------Download Latest Snyk CLI-----------"
        curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
        chmod +x snyk
@@ -185,8 +189,6 @@ steps:
        echo "----------Authenticating Snyk-----------"
        ./snyk auth $(SNYK_TOKEN)
        echo "----------Snyk Scanning-----------"
-       npm install
-       ls -lrt
        ./snyk test --file=package.json 
        echo "----------Snyk Monitor------------"
        ./snyk monitor --file=package.json
