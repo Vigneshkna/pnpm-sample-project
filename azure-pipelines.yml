@@ -144,13 +144,30 @@ steps:
 #               echo "----------Snyk Monitor------------"
 #               ./snyk monitor --file=package.json
 #   displayName: 'Workaround PNPM-Audit'
-- task: SnykSecurityScan@1
+- task: Bash@3
   inputs:
-    serviceConnectionEndpoint: 'SNYK_TOKEN'
-    testType: 'app'
-    monitorWhen: 'always'
-    failOnIssues: false
-  displayName: 'Snykscan Check'
+    targetType: 'inline'
+    script: |
+       echo "----------NPM Installing PNPM------------"
+       npm install -g pnpm
+       pnpm install --fix-lockfile
+       echo "----------Remove NodeModules ------------"
+       rm -rf node_modules
+       rm -f package-lock.json
+       echo "---------NPM INSTALL------------"
+       npm install
+       ls -lrt
+       echo "----------Download Latest Snyk CLI-----------"
+       curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
+       chmod +x snyk
+       ls -lrt
+       echo "----------Authenticating Snyk-----------"
+       ./snyk auth $(SNYK_TOKEN)
+       echo "----------Snyk Scanning-----------"
+       ./snyk test --file=package.json 
+       echo "----------Snyk Monitor------------"
+       ./snyk monitor --file=package.json
+  displayName: 'Workaround PNPM-Audit'
 
 - task: Bash@3
   inputs:
@@ -167,28 +184,4 @@ steps:
       bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json 
       echo "----------Bomber Scan Ended with Snyk------------"
   displayName: 'PNPM Bomber'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-       echo "----------NPM Installing PNPM------------"
-       npm install -g pnpm
-       pnpm install --fix-lockfile
-       echo "----------Remove NodeModules ------------"
-       rm -rf node_modules
-       rm -f package-lock.json
-       ls -lrt
-       echo "---------NPM INSTALL------------"
-       npm install --save
-       ls -lrt
-       echo "----------Download Latest Snyk CLI-----------"
-       curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
-       chmod +x snyk
-       ls -lrt
-       echo "----------Authenticating Snyk-----------"
-       ./snyk auth $(SNYK_TOKEN)
-       echo "----------Snyk Scanning-----------"
-       ./snyk test --file=package.json 
-       echo "----------Snyk Monitor------------"
-       ./snyk monitor --file=package.json
-  displayName: 'Workaround PNPM-Audit'
+
