@@ -1,27 +1,6 @@
 {
-  "name": "onyx",
-  "version": "0.0.0",
-  "license": "UNLICENSED",
-  "scripts": {
-    "build-storybook": "nx run ui-components:build-storybook",
-    "lint-folder-names": "ls-lint",
-    "prepare": "husky install",
-    "storybook": "nx run ui-components:storybook",
-    "test-onyx-app-generator": "./scripts/test-onyx-app-generator.sh",
-    "verify-package-json": "./scripts/verify-package-json.sh",
-    "verify-codeowners": "./scripts/verify-codeowners.sh"
-  },
-  "lint-staged": {
-    "**/*.{ts,tsx}": "eslint --fix",
-    "*": "nx format:write --uncommitted"
-  },
-  "private": true,
-  "engines": {
-    "npm": "please-use-pnpm",
-    "yarn": "please-use-pnpm",
-    "node": "16",
-    "pnpm": ">=7.27 <8"
-  },
+  "name": "pnpmTest",
+  "version": "1.0.0",
   "devDependencies": {
     "@actions/core": "^1.10.0",
     "@adobe/aio-lib-analytics": "^3.0.0",
