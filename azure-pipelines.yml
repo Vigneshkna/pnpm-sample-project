@@ -21,7 +21,7 @@ steps:
        echo "----------NPM Installing PNPM------------"
        npm install -g pnpm
        npm --v
-       node --v
+       node -v
        pnpm i pnpm@7.27.0
        echo "----------Remove NodeModules ------------"
        rm -rf node_modules
