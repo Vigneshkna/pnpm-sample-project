@@ -151,14 +151,15 @@ steps:
       echo "----------Download Latest Snyk CLI-----------"
       curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
       chmod +x snyk
+      ls -lrt
       echo "----------Remove NodeModules ------------"
       rm -rf node_modules
       rm -rf package-lock.json
+      ls -lrt
       echo "----------NPM Installing cyclonedx/cdxgen------------"
-      npm install -g @cyclonedx/cdxgen
+      npm install -g -f @cyclonedx/cdxgen
       echo "----------Authenticating Snyk-----------"
       ./snyk auth $(SNYK_TOKEN)
-      echo "----------NPM Installing cyclonedx/cdxgen------------"
       ./snyk test --file=package.json  --json > sbom.json
       cdxgen -o  sbom1.json
       echo "----------Cat sbom.json------------"
