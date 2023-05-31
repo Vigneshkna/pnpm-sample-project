@@ -15,9 +15,8 @@ steps:
     targetType: 'inline'
     script: |
        echo "----------NPM Installing PNPM------------"
-       nvm install --7.27
+       nvm install 7.27
        nvm use 7.27 
-       nvm --v       
   displayName: 'Workaround PNPM-Audit'
 # - task: Bash@3
 #   inputs:
