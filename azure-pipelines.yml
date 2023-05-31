@@ -164,7 +164,10 @@ steps:
       bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json 
       echo "----------Bomber Scan Ended with Snyk------------"
   displayName: 'PNPM Docker Bomber'
-
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'sbom.json'
+    artifactName: 'sbom'
 - task: Bash@3
   inputs:
     targetType: 'inline'
