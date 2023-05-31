@@ -151,11 +151,12 @@ steps:
       echo "----------Download Latest Snyk CLI-----------"
       curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
       chmod +x snyk
+      npm install -g @cyclonedx/cdxgen
       echo "----------Authenticating Snyk-----------"
       ./snyk auth $(SNYK_TOKEN)
       echo "----------NPM Installing cyclonedx/cdxgen------------"
       ./snyk test --file=package.json  --json > sbom.json
-      cdxgen -o > sbom1.json
+      cdxgen -o  sbom1.json
       echo "----------Cat sbom.json------------"
       cat sbom.json
       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
@@ -175,14 +176,13 @@ steps:
     targetType: 'inline'
     script: |
       echo "----------NPM Installing cyclonedx/cdxgen------------"
-      npm install -g @cyclonedx/cdxgen
-      cdxgen -o > sbom.json
+      cdxgen -o > sbom2.json
       cat sbom.json
       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
       sudo dpkg -i bomber_0.4.4_linux_amd64.deb
       ls -lrt
       echo "----------Bomber Scan Started with Snyk------------"
-      bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json 
+      bomber scan --provider snyk --token $(SNYK_TOKEN) sbom2.json 
       echo "----------Bomber Scan Ended with Snyk------------"
   displayName: 'PNPM Bomber'
 
