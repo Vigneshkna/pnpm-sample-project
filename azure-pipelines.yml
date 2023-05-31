@@ -10,16 +10,27 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSource: 'spec'
-    versionSpec: '7.27'
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
        echo "----------NPM Installing PNPM------------"
-       npm --v
+       npm install -g pnpm
+       nvm --v
+       pnpm i --global pnpm@7.27.0
+       echo "----------Remove NodeModules ------------"
+       rm -rf node_modules
+       rm -rf package-lock.json
+       echo "---------NPM Install------------"
+       npm install
+       ls -lrt
+       echo "----------Authenticating Snyk-----------"
+       ./snyk auth $(SNYK_TOKEN)
+       echo "----------Snyk Scanning-----------"
+       ./snyk test --file=pnpm-lock.yaml
+       ./snyk test --file=package.json 
+       echo "----------Snyk Monitor------------"
+       ./snyk monitor --file=package.json
   displayName: 'Workaround PNPM-Audit'
 # - task: Bash@3
 #   inputs:
