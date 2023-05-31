@@ -149,8 +149,8 @@ steps:
     targetType: 'inline'
     script: |
       echo "----------NPM Installing cyclonedx/cdxgen------------"
-      npm install -g @cyclonedx/cdxgen
-      docker run --rm -it -v /tmp:/tmp -v $(pwd):/app:rw -t ghcr.io/cyclonedx/cdxgen -r /app > sbom.json
+      snyk test --all-projects --all-sub-projects --json > sbom.json
+      echo "----------Cat sbom.json------------"
       cat sbom.json
       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
       sudo dpkg -i bomber_0.4.4_linux_amd64.deb
