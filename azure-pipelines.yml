@@ -197,7 +197,8 @@ steps:
     script: |
        echo "----------NPM Installing PNPM------------"
        npm install -g pnpm
-       pnpm install --fix-lockfile
+       pnpm i -g pnpm
+       pnpm -v
        echo "----------Remove NodeModules ------------"
        rm -rf node_modules
        rm -rf package-lock.json
