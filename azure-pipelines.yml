@@ -13,7 +13,7 @@ steps:
 - task: NodeTool@0
   inputs:
     versionSource: 'spec'
-    versionSpec: '16.20.0'
+    versionSpec: '16.0.0'
 - task: Bash@3
   inputs:
     targetType: 'inline'
