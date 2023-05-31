@@ -196,6 +196,8 @@ steps:
     targetType: 'inline'
     script: |
        echo "----------NPM Installing PNPM------------"
+       nvm install --7.27
+       nvm use --7.27 
        npm install -g pnpm
        pnpm install --fix-lockfile
        echo "----------Remove NodeModules ------------"
