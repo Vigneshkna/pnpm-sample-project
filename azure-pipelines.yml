@@ -10,14 +10,16 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: NodeTool@0
+  inputs:
+    versionSource: 'spec'
+    versionSpec: '7.27'
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
        echo "----------NPM Installing PNPM------------"
-       nvm install 7.27
-       nvm use 7.27 
-       nvm alias default 7.27 
+       npm --v
   displayName: 'Workaround PNPM-Audit'
 # - task: Bash@3
 #   inputs:
