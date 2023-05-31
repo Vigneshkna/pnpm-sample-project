@@ -17,6 +17,7 @@ steps:
        echo "----------NPM Installing PNPM------------"
        nvm install 7.27
        nvm use 7.27 
+       nvm alias default 7.27 
   displayName: 'Workaround PNPM-Audit'
 # - task: Bash@3
 #   inputs:
