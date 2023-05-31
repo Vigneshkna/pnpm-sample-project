@@ -198,8 +198,8 @@ steps:
        echo "----------NPM Installing PNPM------------"
        nvm install --7.27
        nvm use 7.27 
-       npm install -g pnpm
-       npm --v
+       nvm install -g pnpm
+       nvm --v
        pnpm i -g pnpm
        echo "----------Remove NodeModules ------------"
        rm -rf node_modules
