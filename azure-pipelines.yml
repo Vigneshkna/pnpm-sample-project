@@ -10,6 +10,15 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+       echo "----------NPM Installing PNPM------------"
+       nvm install --7.27
+       nvm use 7.27 
+       nvm --v       
+  displayName: 'Workaround PNPM-Audit'
 # - task: Bash@3
 #   inputs:
 #     targetType: 'inline'
@@ -191,27 +200,4 @@ steps:
 #       echo "----------Bomber Scan Ended with Snyk------------"
 #   displayName: 'PNPM Bomber'
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-       echo "----------NPM Installing PNPM------------"
-       nvm install --7.27
-       nvm use 7.27 
-       nvm install -g pnpm
-       nvm --v
-       pnpm i -g pnpm
-       echo "----------Remove NodeModules ------------"
-       rm -rf node_modules
-       rm -rf package-lock.json
-       echo "---------NPM Install------------"
-       npm install
-       ls -lrt
-       echo "----------Authenticating Snyk-----------"
-       ./snyk auth $(SNYK_TOKEN)
-       echo "----------Snyk Scanning-----------"
-       ./snyk test --file=pnpm-lock.yaml
-       ./snyk test --file=package.json 
-       echo "----------Snyk Monitor------------"
-       ./snyk monitor --file=package.json
-  displayName: 'Workaround PNPM-Audit'
+
