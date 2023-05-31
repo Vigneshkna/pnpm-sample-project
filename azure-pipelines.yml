@@ -144,6 +144,20 @@ steps:
 #               echo "----------Snyk Monitor------------"
 #               ./snyk monitor --file=package.json
 #   displayName: 'Workaround PNPM-Audit'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "----------NPM Installing cyclonedx/cdxgen------------"
+      docker run --rm -it -v /tmp:/tmp -v $(pwd):/app:rw -t ghcr.io/cyclonedx/cdxgen -r /app > sbom.json
+      cat sbom.json
+      wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
+      sudo dpkg -i bomber_0.4.4_linux_amd64.deb
+      ls -lrt
+      echo "----------Bomber Scan Started with Snyk------------"
+      bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json 
+      echo "----------Bomber Scan Ended with Snyk------------"
+  displayName: 'PNPM Docker Bomber'
 
 - task: Bash@3
   inputs:
