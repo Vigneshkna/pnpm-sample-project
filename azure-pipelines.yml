@@ -17,7 +17,7 @@ steps:
        echo "----------NPM Installing PNPM------------"
        npm install -g pnpm
        npm --v
-       pnpm i --global pnpm@7.27.0
+       pnpm i pnpm@7.27.0
        echo "----------Remove NodeModules ------------"
        rm -rf node_modules
        rm -rf package-lock.json
