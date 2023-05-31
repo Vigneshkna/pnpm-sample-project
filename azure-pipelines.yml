@@ -199,7 +199,8 @@ steps:
        nvm install --7.27
        nvm use 7.27 
        npm install -g pnpm
-       pnpm install --fix-lockfile
+       npm --v
+       pnpm i -g pnpm
        echo "----------Remove NodeModules ------------"
        rm -rf node_modules
        rm -rf package-lock.json
