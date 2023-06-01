@@ -14,6 +14,32 @@ steps:
   inputs:
     versionSource: 'spec'
     versionSpec: '16.0.0'
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "----------Download Latest Snyk CLI-----------"
+      curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
+      chmod +x snyk
+      ls -lrt
+      echo "----------Remove NodeModules ------------"
+      rm -rf node_modules
+      rm -rf package-lock.json
+      ls -lrt
+      echo "----------NPM Installing cyclonedx/cdxgen------------"
+      npm install -g -f @cyclonedx/cdxgen
+      echo "----------Authenticating Snyk-----------"
+      ./snyk auth $(SNYK_TOKEN)
+      cdxgen -o  sbom1.json
+      echo "----------Cat sbom.json------------"
+      cat sbom.json
+      wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
+      sudo dpkg -i bomber_0.4.4_linux_amd64.deb
+      echo "----------Bomber Scan Started with Snyk------------"
+      bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json 
+      echo "----------Bomber Scan Ended with Snyk------------"
+  displayName: 'PNPM Bomber'
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -41,32 +67,5 @@ steps:
               echo "----------Snyk Monitor------------"
               ./snyk monitor --file=package.json
   displayName: 'PNPM-Audit'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      echo "----------Download Latest Snyk CLI-----------"
-      curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
-      chmod +x snyk
-      ls -lrt
-      echo "----------Remove NodeModules ------------"
-      rm -rf node_modules
-      rm -rf package-lock.json
-      ls -lrt
-      echo "----------NPM Installing cyclonedx/cdxgen------------"
-      npm install -g -f @cyclonedx/cdxgen
-      echo "----------Authenticating Snyk-----------"
-      ./snyk auth $(SNYK_TOKEN)
-      ./snyk test --file=package.json  --json > sbom.json
-      cdxgen -o  sbom1.json
-      echo "----------Cat sbom.json------------"
-      cat sbom.json
-      wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
-      sudo dpkg -i bomber_0.4.4_linux_amd64.deb
-      echo "----------Bomber Scan Started with Snyk------------"
-      bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json 
-      echo "----------Bomber Scan Started with Snyk1------------"
-      bomber scan --provider snyk --token $(SNYK_TOKEN) sbom1.json 
-      echo "----------Bomber Scan Ended with Snyk------------"
-  displayName: 'PNPM Bomber'
+
 
