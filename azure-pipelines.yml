@@ -19,138 +19,6 @@ steps:
     targetType: 'inline'
     script: |
        echo "----------NPM Installing PNPM------------"
-       npm install -g pnpm@7.27.0
-       pnpm install --fix-lockfile
-       echo "----------Remove NodeModules ------------"
-       rm -rf node_modules
-       rm -rf package-lock.json
-       echo "---------NPM Install------------"
-       npm install
-       ls -lrt
-       echo "----------Download Latest Snyk CLI-----------"
-       curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
-       chmod +x snyk
-       ls -lrt
-       echo "----------Authenticating Snyk-----------"
-       ./snyk auth $(SNYK_TOKEN)
-       echo "----------Snyk Scanning-----------"
-       ./snyk test --file=pnpm-lock.yaml
-       ./snyk test --file=package.json 
-       echo "----------Snyk Monitor------------"
-       ./snyk monitor --file=package.json
-  displayName: 'Workaround PNPM-Audit'
-# - task: Bash@3
-#   inputs:
-#     targetType: 'inline'
-#     script: |
-#        echo "----------NPM Installing PNPM------------"
-#        npm install -g pnpm
-#        pnpm install
-#        echo "----------PNPM Audit vulnerability------------"
-#        # Run pnpm audit and capture the output
-#        audit_output=$(pnpm audit --json)
-
-#        # Parse the output to extract vulnerability counts
-#        low_count=$(echo "$audit_output" | jq '.metadata.vulnerabilities.low')
-#        moderate_count=$(echo "$audit_output" | jq '.metadata.vulnerabilities.moderate')
-#        high_count=$(echo "$audit_output" | jq '.metadata.vulnerabilities.high')
-#        critical_count=$(echo "$audit_output" | jq '.metadata.vulnerabilities.critical')
-
-#        # Display the vulnerability counts
-#        echo "Low: $low_count"
-#        echo "Moderate: $moderate_count"
-#        echo "High: $high_count"
-#        echo "Critical: $critical_count"
-#   displayName: 'PNPM-Audit-Vulnerability counts with-Jq'
-# - task: Bash@3
-#   inputs:
-#     targetType: 'inline'
-#     script: |
-#         echo "----------NPM Installing PNPM------------"
-#         npm install -g pnpm
-#         pnpm install
-#         echo "----------PNPM Audit vulnerability------------"
-#         # Run pnpm audit and capture the output
-#         audit_output=$(pnpm audit --json)
-
-#         # Extract package names for each severity level
-#         low_packages=$(echo "$audit_output" | awk -F '[,:]+' '/"low"/ { getline; print $2 }')
-#         moderate_packages=$(echo "$audit_output" | awk -F '[,:]+' '/"moderate"/ { getline; print $2 }')
-#         high_packages=$(echo "$audit_output" | awk -F '[,:]+' '/"high"/ { getline; print $2 }')
-#         critical_packages=$(echo "$audit_output" | awk -F '[,:]+' '/"critical"/ { getline; print $2 }')
-
-#         # Display the package names for each severity level
-#         echo "Low vulnerability packages: $low_packages"
-#         echo "Moderate vulnerability packages: $moderate_packages"
-#         echo "High vulnerability packages: $high_packages"
-#         echo "Critical vulnerability packages: $critical_packages"
-#   displayName: 'PNPM-Audit-Vulnerability packages'
-# - task: Bash@3
-#   inputs:
-#     targetType: 'inline'
-#     script: |
-#        echo "----------NPM Installing PNPM------------"
-#        npm install -g pnpm
-#        pnpm install --fix-lockfile> output.txt
-#        echo "----------Remove NodeModules------------"
-#        rm -rf node_modules
-#        ls -lrt
-#        echo "----------NPM install------------"
-#        npm install
-#        ls -lrt
-#        echo "----------PNPM Audit------------"
-#        pnpm audit > output.txt
-#        #  echo "----------NPM Audit------------"
-#        #  npm audit 
-#        ls -lrt
-#        echo "----------Output------------"
-#        cat output.txt | while IFS= read -r line; do
-#         echo "##vso[task.logissue type=warning]${line}"
-#        done
-#   displayName: 'PNPM-Audit'
-# - task: Bash@3
-#   inputs:
-#     targetType: 'inline'
-#     script: |
-#       echo "----------NPM Installing cyclonedx/cdxgen------------"
-#       npm install -g @cyclonedx/cdxgen
-#       cdxgen -o > sbom.json
-#       cat sbom.json
-#       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
-#       sudo dpkg -i bomber_0.4.4_linux_amd64.deb
-#       ls -lrt
-#       echo "----------Bomber Scan Started with Snyk------------"
-#       bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json --output json --debug | (! jq '.["packages"]' -e)
-#       echo "----------Bomber Scan Ended with Snyk------------"
-#   displayName: 'Bomber'
-
-# - task: Bash@3
-#   inputs:
-#     targetType: 'inline'
-#     script: |
-#       echo "----------Download Latest Snyk CLI-----------"
-#               curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
-#               chmod +x snyk
-#               ls -lrt
-#               echo "----------Authenticating Snyk-----------"
-#               ./snyk auth $(SNYK_TOKEN)
-#               echo "----------Snyk Scanning-----------"
-#               ./snyk test --file=package.json > output.txt
-#               #echo "----------Snyk Scanning sbom-----------"
-#               #./snyk test --file=pnpm-lock.yaml
-#               echo "----------Snyk Monitor------------"
-#               ./snyk monitor --file=package.json
-#               echo "----------Snyk Output------------"
-#               cat output.txt | while IFS= read -r line; do
-#                 echo "##vso[task.logissue type=warning]${line}"
-#               done
-#   displayName: 'Workaround 1'
-
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-       echo "----------NPM Installing PNPM------------"
        npm install -g pnpm
        pnpm install --fix-lockfile
        echo "----------Remove NodeModules ------------"
@@ -172,52 +40,33 @@ steps:
               ./snyk test --file=package.json
               echo "----------Snyk Monitor------------"
               ./snyk monitor --file=package.json
-  displayName: 'Workaround PNPM-Audit'
-# - task: Bash@3
-#   inputs:
-#     targetType: 'inline'
-#     script: |
-#       echo "----------Download Latest Snyk CLI-----------"
-#       curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
-#       chmod +x snyk
-#       ls -lrt
-#       echo "----------Remove NodeModules ------------"
-#       rm -rf node_modules
-#       rm -rf package-lock.json
-#       ls -lrt
-#       echo "----------NPM Installing cyclonedx/cdxgen------------"
-#       npm install -g -f @cyclonedx/cdxgen
-#       echo "----------Authenticating Snyk-----------"
-#       ./snyk auth $(SNYK_TOKEN)
-#       ./snyk test --file=package.json  --json > sbom.json
-#       cdxgen -o  sbom1.json
-#       echo "----------Cat sbom.json------------"
-#       cat sbom.json
-#       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
-#       sudo dpkg -i bomber_0.4.4_linux_amd64.deb
-#       echo "----------Bomber Scan Started with Snyk------------"
-#       bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json 
-#       echo "----------Bomber Scan Started with Snyk1------------"
-#       bomber scan --provider snyk --token $(SNYK_TOKEN) sbom1.json 
-#       echo "----------Bomber Scan Ended with Snyk------------"
-#   displayName: 'PNPM Bomber'
-# - task: PublishPipelineArtifact@1
-#   inputs:
-#     targetPath: 'sbom.json'
-#     artifactName: 'sbom'
-# - task: Bash@3
-#   inputs:
-#     targetType: 'inline'
-#     script: |
-#       echo "----------NPM Installing cyclonedx/cdxgen------------"
-#       cdxgen -o > sbom2.json
-#       cat sbom.json
-#       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
-#       sudo dpkg -i bomber_0.4.4_linux_amd64.deb
-#       ls -lrt
-#       echo "----------Bomber Scan Started with Snyk------------"
-#       bomber scan --provider snyk --token $(SNYK_TOKEN) sbom2.json 
-#       echo "----------Bomber Scan Ended with Snyk------------"
-#   displayName: 'PNPM Bomber'
-
+  displayName: 'PNPM-Audit'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "----------Download Latest Snyk CLI-----------"
+      curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.1060.0/snyk-linux"
+      chmod +x snyk
+      ls -lrt
+      echo "----------Remove NodeModules ------------"
+      rm -rf node_modules
+      rm -rf package-lock.json
+      ls -lrt
+      echo "----------NPM Installing cyclonedx/cdxgen------------"
+      npm install -g -f @cyclonedx/cdxgen
+      echo "----------Authenticating Snyk-----------"
+      ./snyk auth $(SNYK_TOKEN)
+      ./snyk test --file=package.json  --json > sbom.json
+      cdxgen -o  sbom1.json
+      echo "----------Cat sbom.json------------"
+      cat sbom.json
+      wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
+      sudo dpkg -i bomber_0.4.4_linux_amd64.deb
+      echo "----------Bomber Scan Started with Snyk------------"
+      bomber scan --provider snyk --token $(SNYK_TOKEN) sbom.json 
+      echo "----------Bomber Scan Started with Snyk1------------"
+      bomber scan --provider snyk --token $(SNYK_TOKEN) sbom1.json 
+      echo "----------Bomber Scan Ended with Snyk------------"
+  displayName: 'PNPM Bomber'
 
