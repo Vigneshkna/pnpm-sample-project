@@ -28,6 +28,7 @@ steps:
       rm -rf package-lock.json
       ls -lrt
       echo "----------NPM Installing cyclonedx/cdxgen------------"
+      npm install
       npm install -g -f @cyclonedx/cdxgen
       cdxgen -o  sbom.json
       echo "----------Cat sbom.json------------"
