@@ -29,8 +29,6 @@ steps:
       ls -lrt
       echo "----------NPM Installing cyclonedx/cdxgen------------"
       npm install -g -f @cyclonedx/cdxgen
-      echo "----------Authenticating Snyk-----------"
-      ./snyk auth $(SNYK_TOKEN)
       cdxgen -o  sbom.json
       echo "----------Cat sbom.json------------"
       cat sbom.json
