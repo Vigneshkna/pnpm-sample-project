@@ -31,7 +31,7 @@ steps:
       npm install -g -f @cyclonedx/cdxgen
       echo "----------Authenticating Snyk-----------"
       ./snyk auth $(SNYK_TOKEN)
-      cdxgen -o  sbom1.json
+      cdxgen -o  sbom.json
       echo "----------Cat sbom.json------------"
       cat sbom.json
       wget https://github.com/devops-kung-fu/bomber/releases/download/v0.4.4/bomber_0.4.4_linux_amd64.deb
